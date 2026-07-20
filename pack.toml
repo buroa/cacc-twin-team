@@ -1,0 +1,95 @@
+# cacc-twin-team — CACC = Codex And Claude Code, the two harnesses on the team.
+# A two-model team for the standard Gas City roles.
+#
+# One import gives you the whole crew: a Claude Fable mayor supervising the
+# twelve gascity role workers, all running GPT-5.6 Sol on the codex harness.
+#
+# Consume it with ONE city-level import, bound as `gc` (see README.md):
+#   [imports.gc]
+#   source = ".../cacc-twin-team"
+# The city surface keeps the mayor (scope = "city"); each rig surface gets the
+# role workers (scope = "rig") as `<rig>/gc.<role>`, so the gascity formulas'
+# `gc.<role>` targets keep resolving. Don't also import gascity/roles directly
+# or you get a second, unconfigured copy of every role.
+
+[pack]
+name = "cacc-twin-team"
+schema = 2
+version = "0.1.0"
+description = "Claude Fable mayor + GPT-5.6 Sol workers for the standard gascity roles."
+
+# The model rides in the provider preset, so agents only pick a provider.
+# Both presets pin the model as an explicit --model flag; nothing here depends
+# on a city-local .gc/settings.json.
+[providers.cacc-fable]
+base = "builtin:claude"
+option_defaults = { model = "fable-5" }
+
+[providers.cacc-sol]
+base = "builtin:codex"
+option_defaults = { model = "gpt-5.6-sol" }
+
+# The twelve standard role workers (requirements-planner, task-decomposer,
+# implementation-worker, the reviewers, publisher, run-operator, ...).
+# The consumer's import binding overrides this one, so bind the pack as `gc`
+# at the rig level and these surface as gc.<role>.
+[imports.roles]
+source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
+version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+
+# Put every imported role on the Sol crew. Patches, not [agent_defaults]:
+# pack-scoped agent_defaults only reach this pack's own agents, and the
+# resolver silently falls back to the city's workspace.provider for any agent
+# left blank — which would un-twin the team without an error.
+[[patches.agent]]
+name = "requirements-planner"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "task-decomposer"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "design-author"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "gap-analyst"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "implementation-worker"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "implementation-reviewer"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "design-implementation-reviewer"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "design-test-risk-reviewer"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "review-synthesizer"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "issue-triager"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "publisher"
+provider = "cacc-sol"
+
+[[patches.agent]]
+name = "run-operator"
+provider = "cacc-sol"
+
+[[named_session]]
+template = "mayor"
+scope = "city"
+mode = "always"

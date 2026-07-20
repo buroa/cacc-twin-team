@@ -1,0 +1,6 @@
+description = "City mayor: plans, dispatches, and supervises the crew on Claude Fable"
+scope = "city"
+provider = "cacc-fable"
+wake_mode = "fresh"
+work_dir = ".gc/agents/mayor"
+idle_timeout = "1h"
