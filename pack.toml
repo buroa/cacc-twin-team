@@ -15,7 +15,7 @@
 [pack]
 name = "cacc-twin-team"
 schema = 2
-version = "0.1.0"
+version = "0.1.1"
 description = "Claude Fable mayor + GPT-5.6 Sol workers for the standard gascity roles."
 
 # The model rides in the provider preset, so agents only pick a provider.
