@@ -9,7 +9,7 @@
 #   source = ".../cacc-twin-team"
 # Each rig surface gets the role workers (scope = "rig") as `<rig>/gc.<role>`,
 # so the gascity formulas' `gc.<role>` targets keep resolving. Don't also import
-gascity/roles directly or you get a second, unconfigured copy of every role.
+# gascity/roles directly or you get a second, unconfigured copy of every role.
 
 [pack]
 name = "cacc-twin-team"
