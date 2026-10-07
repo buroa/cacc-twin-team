@@ -7,27 +7,19 @@
 # Consume it with ONE city-level import, bound as `gc` (see README.md):
 #   [imports.gc]
 #   source = ".../cacc-twin-team"
-# The city surface keeps the mayor (scope = "city"); each rig surface gets the
-# role workers (scope = "rig") as `<rig>/gc.<role>`, so the gascity formulas'
-# `gc.<role>` targets keep resolving. Don't also import gascity/roles directly
-# or you get a second, unconfigured copy of every role.
+# Each rig surface gets the role workers (scope = "rig") as `<rig>/gc.<role>`,
+# so the gascity formulas' `gc.<role>` targets keep resolving. Don't also import
+gascity/roles directly or you get a second, unconfigured copy of every role.
 
 [pack]
 name = "cacc-twin-team"
 schema = 2
-version = "0.1.1"
-description = "Claude Fable mayor + GPT-5.6 Sol workers for the standard gascity roles."
-
-# The model rides in the provider preset, so agents only pick a provider.
-# Both presets pin the model as an explicit --model flag; nothing here depends
-# on a city-local .gc/settings.json.
-[providers.cacc-fable]
-base = "builtin:claude"
-option_defaults = { model = "fable-5" }
+version = "0.1.2"
+description = "GPT-6.1 Sol workers for the standard gascity roles."
 
 [providers.cacc-sol]
 base = "builtin:codex"
-option_defaults = { model = "gpt-5.6-sol" }
+option_defaults = { model = "gpt-6.1-sol" }
 
 # The twelve standard role workers (requirements-planner, task-decomposer,
 # implementation-worker, the reviewers, publisher, run-operator, ...).
@@ -35,7 +27,7 @@ option_defaults = { model = "gpt-5.6-sol" }
 # at the rig level and these surface as gc.<role>.
 [imports.roles]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:db4bd054af468dce715293544d3a55d94f029a05"
 
 # Put every imported role on the Sol crew. Patches, not [agent_defaults]:
 # pack-scoped agent_defaults only reach this pack's own agents, and the
@@ -88,8 +80,3 @@ provider = "cacc-sol"
 [[patches.agent]]
 name = "run-operator"
 provider = "cacc-sol"
-
-[[named_session]]
-template = "mayor"
-scope = "city"
-mode = "always"

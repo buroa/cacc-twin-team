@@ -9,8 +9,7 @@ the codex harness. One import gives you the whole crew.
 
 - Defines two provider presets, each pinning its model as an explicit
   `--model` flag (no dependency on a city-local `.gc/settings.json`):
-  - `cacc-fable` — `builtin:claude` + `model = "fable-5"` → `claude --model claude-fable-5`
-  - `cacc-sol` — `builtin:codex` + `model = "gpt-5.6-sol"` → `codex --model gpt-5.6-sol`
+  - `cacc-sol` — `builtin:codex` + `model = "gpt-6.1-sol"` → `codex --model gpt-6.1-sol`
 - Imports the standard role workers from
   `gastownhall/gascity-packs/gascity/roles` (pinned by sha) and patches every
   role onto `cacc-sol`.
