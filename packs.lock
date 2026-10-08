@@ -1,5 +1,5 @@
 schema = 1
 
 [packs."https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"]
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
-commit = "3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:520e95cb22992a8a1017f7a60da267f203497c7e"
+commit = "520e95cb22992a8a1017f7a60da267f203497c7e"

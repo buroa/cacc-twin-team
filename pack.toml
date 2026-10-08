@@ -46,7 +46,7 @@ option_defaults = { model = "claude-sonnet-5-5", effort = "high" }
 # at the rig level and these surface as gc.<role>.
 [imports.roles]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:db4bd054af468dce715293544d3a55d94f029a05"
+version = "sha:520e95cb22992a8a1017f7a60da267f203497c7e"
 
 # Put every imported role on its crew. Patches, not [agent_defaults]:
 # pack-scoped agent_defaults only reach this pack's own agents, and the
