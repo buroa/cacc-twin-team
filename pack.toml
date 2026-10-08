@@ -16,7 +16,7 @@
 [pack]
 name = "cacc-twin-team"
 schema = 2
-version = "0.1.4"
+version = "0.1.5"
 description = "GPT-6 workers for the standard gascity roles, with a Claude Sonnet implementation reviewer."
 
 # Effort is pinned on every preset on purpose: gascity's builtin codex provider
