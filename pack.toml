@@ -1,8 +1,10 @@
 # cacc-twin-team — CACC = Codex And Claude Code, the two harnesses on the team.
-# A two-model team for the standard Gas City roles.
+# A GPT-first team for the standard Gas City roles.
 #
-# One import gives you the whole crew: a Claude Fable mayor supervising the
-# twelve gascity role workers, all running GPT-5.6 Sol on the codex harness.
+# One import gives you the whole crew: the fourteen gascity role workers,
+# thirteen running GPT-6 models on the codex harness and one (the
+# implementation reviewer) running Claude Sonnet on the claude harness, so the
+# merge gate on Sol-written code comes from a different model family.
 #
 # Consume it with ONE city-level import, bound as `gc` (see README.md):
 #   [imports.gc]
@@ -14,14 +16,31 @@
 [pack]
 name = "cacc-twin-team"
 schema = 2
-version = "0.1.2"
-description = "GPT-6.1 Sol workers for the standard gascity roles."
+version = "0.1.3"
+description = "GPT-6 workers for the standard gascity roles, with a Claude Sonnet implementation reviewer."
+
+# Effort is pinned on every preset on purpose: gascity's builtin codex provider
+# defaults effort to xhigh and builtin claude to max, which would make the
+# cheap tiers expensive.
+[providers.cacc-astra]
+base = "builtin:codex"
+option_defaults = { model = "gpt-6-astra", effort = "high" }
 
 [providers.cacc-sol]
 base = "builtin:codex"
-option_defaults = { model = "gpt-6.1-sol" }
+option_defaults = { model = "gpt-6.1-sol", effort = "high" }
 
-# The twelve standard role workers (requirements-planner, task-decomposer,
+[providers.cacc-luna]
+base = "builtin:codex"
+option_defaults = { model = "gpt-6-luna", effort = "high" }
+
+# Full model id: gascity's claude alias table (through 1.5.0) stops at
+# sonnet-5, and Claude Code rejects a bare "sonnet-5-5".
+[providers.cacc-sonnet]
+base = "builtin:claude"
+option_defaults = { model = "claude-sonnet-5-5", effort = "high" }
+
+# The fourteen standard role workers (requirements-planner, task-decomposer,
 # implementation-worker, the reviewers, publisher, run-operator, ...).
 # The consumer's import binding overrides this one, so bind the pack as `gc`
 # at the rig level and these surface as gc.<role>.
@@ -29,10 +48,15 @@ option_defaults = { model = "gpt-6.1-sol" }
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
 version = "sha:db4bd054af468dce715293544d3a55d94f029a05"
 
-# Put every imported role on the Sol crew. Patches, not [agent_defaults]:
+# Put every imported role on its crew. Patches, not [agent_defaults]:
 # pack-scoped agent_defaults only reach this pack's own agents, and the
 # resolver silently falls back to the city's workspace.provider for any agent
 # left blank — which would un-twin the team without an error.
+#
+# Astra: the one-shot design plan everything downstream traces to.
+# Sol: every role that writes or judges code and artifacts.
+# Luna: deterministic plumbing (gates, scripts, metadata, push and PR).
+# Sonnet: the implementation reviewer, a second model family on Sol's code.
 [[patches.agent]]
 name = "requirements-planner"
 provider = "cacc-sol"
@@ -43,7 +67,7 @@ provider = "cacc-sol"
 
 [[patches.agent]]
 name = "design-author"
-provider = "cacc-sol"
+provider = "cacc-astra"
 
 [[patches.agent]]
 name = "gap-analyst"
@@ -52,10 +76,11 @@ provider = "cacc-sol"
 [[patches.agent]]
 name = "implementation-worker"
 provider = "cacc-sol"
+option_defaults = { effort = "xhigh" }
 
 [[patches.agent]]
 name = "implementation-reviewer"
-provider = "cacc-sol"
+provider = "cacc-sonnet"
 
 [[patches.agent]]
 name = "design-implementation-reviewer"
@@ -75,8 +100,16 @@ provider = "cacc-sol"
 
 [[patches.agent]]
 name = "publisher"
-provider = "cacc-sol"
+provider = "cacc-luna"
 
 [[patches.agent]]
 name = "run-operator"
+provider = "cacc-luna"
+
+[[patches.agent]]
+name = "feature-refiner"
+provider = "cacc-luna"
+
+[[patches.agent]]
+name = "quality-judge"
 provider = "cacc-sol"
