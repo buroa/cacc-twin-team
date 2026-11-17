@@ -24,11 +24,11 @@ description = "GPT-6 workers for the standard gascity roles, with a Claude Sonne
 # cheap tiers expensive.
 [providers.cacc-astra]
 base = "builtin:codex"
-option_defaults = { model = "gpt-6-astra", effort = "high" }
+option_defaults = { model = "gpt-6.2-astra", effort = "high" }
 
 [providers.cacc-sol]
 base = "builtin:codex"
-option_defaults = { model = "gpt-6.1-sol", effort = "high" }
+option_defaults = { model = "gpt-6.2-sol", effort = "high" }
 
 [providers.cacc-luna]
 base = "builtin:codex"
